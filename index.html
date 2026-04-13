@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LearnHub - Login</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <div class="auth-container">
+
+    <!-- Logo -->
+    <h1 class="logo">LearnHub</h1>
+    <p class="logo-tagline">Your learning, your pace.</p>
+
+    <!-- Tab Buttons -->
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="showLogin()">Login</button>
+      <button class="tab-btn" id="tab-signup" onclick="showSignup()">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="login-form" onsubmit="handleLogin(event)">
+
+      <div class="input-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" required/>
+      </div>
+
+      <div class="input-group">
+        <label for="login-password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="login-password" placeholder="Enter your password" required/>
+          <span class="toggle-password" onclick="togglePassword('login-password', this)">Show</span>
+        </div>
+      </div>
+
+      <p class="error-msg" id="login-error"></p>
+      <button type="submit" class="btn-submit">Login</button>
+
+    </form>
+
+    <!-- Signup Form (hidden by default) -->
+    <form id="signup-form" class="hidden" onsubmit="handleSignup(event)">
+
+      <div class="input-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" placeholder="John Doe" required/>
+      </div>
+
+      <div class="input-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" required/>
+      </div>
+
+      <div class="input-group">
+        <label for="signup-password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="signup-password" placeholder="Min. 6 characters" required/>
+          <span class="toggle-password" onclick="togglePassword('signup-password', this)">Show</span>
+        </div>
+      </div>
+
+      <p class="error-msg" id="signup-error"></p>
+      <button type="submit" class="btn-submit">Create Account</button>
+
+    </form>
+
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { firebaseConfig } from "./firebase/config.js";
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    // If user is already logged in, go to dashboard
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        window.location.href = "dashboard.html";
+      }
+    });
+
+    // Login
+    window.handleLogin = async function(event) {
+      event.preventDefault();
+
+      const email    = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      const errorEl  = document.getElementById("login-error");
+
+      errorEl.textContent = "";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        errorEl.textContent = getErrorMessage(error.code);
+      }
+    };
+
+    // Signup
+    window.handleSignup = async function(event) {
+      event.preventDefault();
+
+      const name     = document.getElementById("signup-name").value;
+      const email    = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      const errorEl  = document.getElementById("signup-error");
+
+      errorEl.textContent = "";
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Save display name to Firebase Auth profile
+        await updateProfile(user, { displayName: name });
+
+        // Save user data to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          name       : name,
+          email      : email,
+          createdAt  : serverTimestamp(),
+          favorites  : [],
+          watchLater : []
+        });
+
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        errorEl.textContent = getErrorMessage(error.code);
+      }
+    };
+
+    // Convert Firebase error codes to readable messages
+    function getErrorMessage(code) {
+      if (code === "auth/user-not-found")       return "No account found with this email.";
+      if (code === "auth/wrong-password")        return "Incorrect password.";
+      if (code === "auth/invalid-email")         return "Please enter a valid email.";
+      if (code === "auth/email-already-in-use")  return "This email is already registered.";
+      if (code === "auth/weak-password")         return "Password must be at least 6 characters.";
+      if (code === "auth/invalid-credential")    return "Invalid email or password.";
+      if (code === "auth/too-many-requests")     return "Too many attempts. Try again later.";
+      return "Something went wrong. Please try again.";
+    }
+  </script>
+
+  <script>
+    // Show Login form, hide Signup form
+    function showLogin() {
+      document.getElementById("login-form").classList.remove("hidden");
+      document.getElementById("signup-form").classList.add("hidden");
+      document.getElementById("tab-login").classList.add("active");
+      document.getElementById("tab-signup").classList.remove("active");
+    }
+
+    // Show Signup form, hide Login form
+    function showSignup() {
+      document.getElementById("signup-form").classList.remove("hidden");
+      document.getElementById("login-form").classList.add("hidden");
+      document.getElementById("tab-signup").classList.add("active");
+      document.getElementById("tab-login").classList.remove("active");
+    }
+
+    // Toggle password visibility
+    function togglePassword(inputId, toggleEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === "password") {
+        input.type = "text";
+        toggleEl.textContent = "Hide";
+      } else {
+        input.type = "password";
+        toggleEl.textContent = "Show";
+      }
+    }
+  </script>
+
+</body>
+</html>
