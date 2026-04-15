@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning - Student Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">LearnHub</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html" class="active">My Learning</a>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="profile-container">
+
+        <h2>My Learning</h2>
+
+        <!-- Favorites Section -->
+        <p class="section-title">Favorites</p>
+        <div class="list-card" id="favoritesList">
+            <p class="empty-msg">No favorites added yet.</p>
+        </div>
+
+        <!-- Watch Later Section -->
+        <p class="section-title">Watch Later</p>
+        <div class="list-card" id="watchLaterList">
+            <p class="empty-msg">No items in Watch Later.</p>
+        </div>
+
+        <!-- Quiz Results Section -->
+        <p class="section-title">Quiz Results</p>
+        <div class="list-card" id="quizResultsList">
+            <p class="empty-msg">No quizzes attempted yet.</p>
+        </div>
+
+    </div>
+
+    <script src="firebase/config.js"></script>
+    <script src="data/courses.js"></script>
+    <script src="js/profile.js"></script>
+
+</body>
+</html>

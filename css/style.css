@@ -24,7 +24,7 @@
 
 body {
   font-family     : 'Segoe UI', sans-serif;
-  background-color: var(--bg-primary);
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1035 50%, #0f0f0f 100%);
   color           : var(--text-primary);
   font-size       : 15px;
 }
@@ -175,3 +175,84 @@ a:hover {
   background-color: var(--accent-hover);
 }
 
+/* ===========================
+   PROFILE PAGE
+=========================== */
+
+.navbar {
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  padding         : 14px 32px;
+  background-color: var(--bg-secondary);
+  border-bottom   : 1px solid var(--border-color);
+}
+
+.navbar .nav-logo {
+  font-size  : 20px;
+  font-weight: 700;
+  color      : var(--accent);
+}
+
+.navbar .nav-links a {
+  color       : var(--text-secondary);
+  margin-left : 24px;
+  font-size   : 14px;
+}
+
+.navbar .nav-links a:hover {
+  color: var(--text-primary);
+}
+
+.profile-container {
+  max-width: 800px;
+  margin   : 40px auto;
+  padding  : 0 24px;
+}
+
+.profile-container h2 {
+  font-size    : 22px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size    : 16px;
+  font-weight  : 600;
+  margin-bottom: 12px;
+  color        : var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.list-card {
+  background-color: var(--bg-card);
+  border          : 1px solid var(--border-color);
+  border-radius   : 10px;
+  margin-bottom   : 32px;
+  overflow        : hidden;
+}
+
+.list-card-item {
+  padding      : 14px 18px;
+  font-size    : 14px;
+  border-bottom: 1px solid var(--border-color);
+  display      : flex;
+  justify-content: space-between;
+  align-items  : center;
+}
+
+.list-card-item:last-child {
+  border-bottom: none;
+}
+
+.list-card-item span {
+  color    : var(--text-secondary);
+  font-size: 13px;
+}
+
+.empty-msg {
+  padding   : 20px 18px;
+  font-size : 14px;
+  color     : var(--text-secondary);
+  text-align: center;
+}
