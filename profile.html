@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — Scholarly</title>
+  <meta name="description"
+    content="View your Scholarly profile, saved favorites, quiz results, and watch-later list." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <a href="dashboard.html" class="navbar-brand">
+      <span class="brand-name">Scholarly</span>
+    </a>
+
+    <!-- Search -->
+    <div class="nav-search-wrap">
+      <svg class="nav-search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="M21 21l-4.35-4.35" />
+      </svg>
+      <input id="nav-search" class="nav-search-input" type="search" placeholder="Search courses..."
+        autocomplete="off" />
+    </div>
+
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="course.html" class="nav-link active">Courses</a>
+      <a href="#" class="nav-link">Quizzes</a>
+      <a href="#" class="nav-link">Resources</a>
+    </div>
+
+    <div class="navbar-actions">
+      <a href="#" class="btn-ghost" id="logout-btn">Logout</a>
+      <a href="profile.html" class="btn-primary" id="nav-profile-btn" style="gap:8px; padding:8px 16px;">
+        My Profile
+        <div class="avatar" id="nav-avatar"
+          style="width:28px;height:28px;font-size:0.8rem;background:rgba(255,255,255,0.25);">A</div>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── PAGE BODY ── -->
+  <div class="page-wrapper profile-page-wrapper">
+
+    <!-- ── LEFT COLUMN ── -->
+    <div class="profile-left">
+
+      <!-- Profile Hero Card -->
+      <div class="profile-hero card">
+        <div class="profile-hero-inner">
+          <!-- Avatar -->
+          <div class="profile-avatar-wrap">
+            <div class="avatar lg profile-avatar" id="profile-avatar">A</div>
+            <button class="avatar-edit-btn" id="avatar-edit-btn" title="Change photo">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- User Info -->
+          <div class="profile-hero-info">
+            <h1 class="profile-name" id="profile-name">Omji Dubey</h1>
+            <p class="profile-email" id="profile-email">omjidubey@gmail.com</p>
+          </div>
+        </div>
+
+        <!-- Edit Profile Button -->
+        <button class="btn-outline profile-edit-btn" id="edit-profile-btn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </svg>
+          Edit Profile
+        </button>
+      </div>
+
+      <!-- ── MY FAVORITES ── -->
+      <section class="profile-section" aria-labelledby="fav-heading">
+        <div class="section-row-header">
+          <div>
+            <h2 class="section-heading" id="fav-heading" style="margin-bottom:2px;">My Favorites</h2>
+            <p class="section-sub">Courses you've bookmarked for easy access.</p>
+          </div>
+          <a href="#" class="link-sm view-all-link">
+            View All
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+        <div class="scroll-row" id="favorites-container">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ── WATCH LATER ── -->
+      <section class="profile-section" aria-labelledby="wl-heading">
+        <h2 class="section-heading" id="wl-heading" style="margin-bottom:2px;">Watch Later</h2>
+        <p class="section-sub" style="margin-bottom:16px;">Saved modules and standalone lectures.</p>
+        <ul class="watch-later-list" id="watch-later-container">
+          <!-- Injected by JS -->
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN: Quiz Results ── -->
+    <aside class="profile-right" aria-label="Quiz Results">
+      <div class="quiz-results-card card">
+        <h2 class="section-heading" style="margin-bottom:18px;">Quiz Results</h2>
+        <ul class="quiz-results-list" id="quiz-results-container">
+          <!-- Injected by JS -->
+        </ul>
+        <div style="padding-top:12px; border-top:1px solid var(--border); margin-top:4px;">
+          <a href="#" class="link-sm view-all-link" style="font-size:0.82rem;">
+            View Full History
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Edit Profile</h2>
+        <button class="modal-close" id="modal-close" aria-label="Close">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="field-label" for="edit-name">Full Name</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+            </span>
+            <input type="text" id="edit-name" placeholder="Your full name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="edit-email">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 7l10 7 10-7" />
+              </svg>
+            </span>
+            <input type="email" id="edit-email" placeholder="your@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="edit-bio">Bio</label>
+          <div class="input-wrap">
+            <textarea id="edit-bio" rows="3" placeholder="Tell us a little about yourself..."
+              style="padding-left:14px; resize:vertical;"></textarea>
+          </div>
+        </div>
+        <div id="modal-msg" class="msg"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="modal-cancel">Cancel</button>
+        <button class="btn-primary" id="modal-save">
+          Save Changes
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/profile.js"></script>
+</body>
+
+</html>

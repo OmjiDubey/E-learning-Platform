@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — Scholarly</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="dashboard.html" class="navbar-brand">
+      <span class="brand-name">Scholarly</span>
+    </a>
+    <div style="display:flex; gap:24px; align-items:center;">
+        <a href="dashboard.html" style="font-weight:500; font-size:0.9rem; color:var(--text);">Dashboard</a>
+        <a href="#" style="color:var(--primary); font-weight:600; font-size:0.9rem; border-bottom:2px solid var(--primary); padding-bottom:2px;">Courses</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="#" class="btn-ghost" id="logout-btn">Logout</a>
+      <a href="profile.html" class="btn-ghost" style="border:none; padding:4px 8px; gap:8px;">
+        <span style="color:var(--primary); font-weight:500;">My Profile</span>
+        <div class="avatar" id="nav-avatar" style="width:32px; height:32px; font-size:0.85rem;"></div>
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div style="margin-bottom: 32px;">
+      <h1 id="welcome-message" style="font-size: 2.2rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px;">Welcome back.</h1>
+      <p style="color: var(--muted); font-size: 0.95rem;">Your curated curriculum awaits. Pick up right where you left off or explore new architectural paradigms.</p>
+    </div>
+
+    <!-- Active Courses Section -->
+    <div style="margin-bottom: 48px;">
+      <h2 class="section-heading">Active Courses</h2>
+      <div class="grid-courses" id="active-courses-container" style="grid-template-columns: repeat(2, 1fr);">
+        <!-- Active courses injected by JS -->
+      </div>
+    </div>
+
+    <!-- All Courses Section -->
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px;">
+        <h2 class="section-heading" style="margin-bottom:0;">All Courses</h2>
+        <a href="#" class="link-sm" style="display:flex; align-items:center; gap:4px; font-weight:600;">
+          View Complete Catalog
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="grid-courses" id="all-courses-container">
+        <!-- All courses injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
