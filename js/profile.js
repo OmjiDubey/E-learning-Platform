@@ -1,11 +1,15 @@
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, firestore as db } from "../firebase/config.js";
+
 /* ============================================================
    Scholarly — Profile Page  |  js/profile.js
    ============================================================ */
 
 // ── MOCK DATA ─────────────────────────────────────────────────
 const USER = {
-  name: "Alex Mercer",
-  email: "alex.mercer@example.com",
+  name: "User",
+  email: "",
   bio: "Passionate about cinema, visual design, and continuous learning.",
   enrolledCount: 4,
   avgCompletion: 64,
@@ -14,51 +18,56 @@ const USER = {
   streak: 7
 };
 
-const FAVORITES = [
-  {
-    id: "f1",
-    title: "Advanced CSS Architecture & Systems",
-    category: "FRONTEND",
-    desc: "Master scalable styling methodologies for modern web applications.",
-    instructor: "Si. Kim",
-    progress: 72,
-    status: "continue",
-    thumb: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    id: "f2",
-    title: "Editorial Typography Principles",
-    category: "DESIGN",
-    desc: "Learn how to pair fonts and create strong visual hierarchies.",
-    instructor: "Si. Kim",
-    progress: 0,
-    status: "start",
-    thumb: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=400&q=80"
-  }
-];
+// const FAVORITES = [
+//   {
+//     id: "f1",
+//     title: "Advanced CSS Architecture & Systems",
+//     category: "FRONTEND",
+//     desc: "Master scalable styling methodologies for modern web applications.",
+//     instructor: "Si. Kim",
+//     progress: 72,
+//     status: "continue",
+//     thumb: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+//   },
+//   {
+//     id: "f2",
+//     title: "Editorial Typography Principles",
+//     category: "DESIGN",
+//     desc: "Learn how to pair fonts and create strong visual hierarchies.",
+//     instructor: "Si. Kim",
+//     progress: 0,
+//     status: "start",
+//     thumb: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=400&q=80"
+//   }
+// ];
 
-const WATCH_LATER = [
-  {
-    id: "wl1",
-    title: "Understanding React Server Components",
-    module: "Module 3 · Advanced Web Development",
-    duration: "41 min",
-    thumb: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?auto=format&fit=crop&w=80&q=80"
-  },
-  {
-    id: "wl2",
-    title: "Color Theory in Practice",
-    module: "Module 1 · UI/UX Fundamentals",
-    duration: "28 min",
-    thumb: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=80&q=80"
-  }
-];
+// const WATCH_LATER = [
+//   {
+//     id: "wl1",
+//     title: "Understanding React Server Components",
+//     module: "Module 3 · Advanced Web Development",
+//     duration: "41 min",
+//     thumb: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?auto=format&fit=crop&w=80&q=80"
+//   },
+//   {
+//     id: "wl2",
+//     title: "Color Theory in Practice",
+//     module: "Module 1 · UI/UX Fundamentals",
+//     duration: "28 min",
+//     thumb: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=80&q=80"
+//   }
+// ];
 
-const QUIZ_RESULTS = [
-  { id: "q1", title: "CSS Grid Mastery Check", course: "Advanced CSS", date: "Oct 12, 2023", score: 82 },
-  { id: "q2", title: "Typography Basics Quiz", course: "UI/UX Fundamentals", date: "Oct 21, 2023", score: 95 },
-  { id: "q3", title: "JavaScript Closures", course: "JS Deep Dive", date: "Sep 20, 2023", score: 64 }
-];
+// const QUIZ_RESULTS = [
+//   { id: "q1", title: "CSS Grid Mastery Check", course: "Advanced CSS", date: "Oct 12, 2023", score: 82 },
+//   { id: "q2", title: "Typography Basics Quiz", course: "UI/UX Fundamentals", date: "Oct 21, 2023", score: 95 },
+//   { id: "q3", title: "JavaScript Closures", course: "JS Deep Dive", date: "Sep 20, 2023", score: 64 }
+// ];
+
+let FAVORITES = [];
+let WATCH_LATER = [];
+let QUIZ_RESULTS = [];
+let currentUser = null;
 
 // ── DOM REFS ──────────────────────────────────────────────────
 const profileNameEl = document.getElementById("profile-name");
@@ -72,16 +81,7 @@ const favContainer = document.getElementById("favorites-container");
 const wlContainer = document.getElementById("watch-later-container");
 const quizContainer = document.getElementById("quiz-results-container");
 
-// Modal
-const editBtn = document.getElementById("edit-profile-btn");
-const modalBackdrop = document.getElementById("modal-backdrop");
-const modalClose = document.getElementById("modal-close");
-const modalCancel = document.getElementById("modal-cancel");
-const modalSave = document.getElementById("modal-save");
-const modalMsg = document.getElementById("modal-msg");
-const editNameEl = document.getElementById("edit-name");
-const editEmailEl = document.getElementById("edit-email");
-const editBioEl = document.getElementById("edit-bio");
+
 const logoutBtn = document.getElementById("logout-btn");
 
 // ── RENDER: HERO ──────────────────────────────────────────────
@@ -131,7 +131,7 @@ function renderFavorites() {
           <div class="avatar" style="width:22px;height:22px;font-size:0.65rem">${c.instructor.charAt(0)}</div>
           <span>${c.instructor}</span>
         </span>
-        <button class="btn-primary fav-action-btn" style="padding:6px 14px;font-size:0.78rem">
+        <button class="btn-primary fav-action-btn" style="padding:6px 14px;font-size:0.78rem" onclick="window.location.href='course.html'">
           ${c.status === "continue" ? "Continue" : "Start Course"}
         </button>
       </div>
@@ -139,10 +139,18 @@ function renderFavorites() {
   `).join("");
 
   favContainer.querySelectorAll(".fav-remove-btn").forEach(btn =>
-    btn.addEventListener("click", e => {
+    btn.addEventListener("click", async e => {
       e.stopPropagation();
       const idx = FAVORITES.findIndex(f => f.id === btn.dataset.id);
-      if (idx !== -1) { FAVORITES.splice(idx, 1); renderFavorites(); }
+      if (idx !== -1) {
+        FAVORITES.splice(idx, 1);
+        renderFavorites();
+        if (currentUser) {
+          try {
+            await updateDoc(doc(db, "users", currentUser.uid), { favorites: FAVORITES });
+          } catch (err) { console.error(err); }
+        }
+      }
     })
   );
 }
@@ -187,9 +195,17 @@ function renderWatchLater() {
       const item = wlContainer.querySelector(`[data-id="${btn.dataset.id}"]`);
       if (!item) return;
       item.style.cssText += "transition:opacity .25s,transform .25s;opacity:0;transform:translateX(12px)";
-      setTimeout(() => {
+      setTimeout(async () => {
         const idx = WATCH_LATER.findIndex(w => w.id === btn.dataset.id);
-        if (idx !== -1) { WATCH_LATER.splice(idx, 1); renderWatchLater(); }
+        if (idx !== -1) {
+          WATCH_LATER.splice(idx, 1);
+          renderWatchLater();
+          if (currentUser) {
+            try {
+              await updateDoc(doc(db, "users", currentUser.uid), { watchLater: WATCH_LATER });
+            } catch (err) { console.error(err); }
+          }
+        }
       }, 270);
     })
   );
@@ -213,60 +229,42 @@ function renderQuizResults() {
   }).join("");
 }
 
-// ── EDIT PROFILE MODAL ────────────────────────────────────────
-function openModal() {
-  if (editNameEl) editNameEl.value = USER.name;
-  if (editEmailEl) editEmailEl.value = USER.email;
-  if (editBioEl) editBioEl.value = USER.bio;
-  if (modalMsg) { modalMsg.className = "msg"; modalMsg.textContent = ""; }
-  modalBackdrop.classList.add("visible");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  modalBackdrop.classList.remove("visible");
-  setTimeout(() => { document.body.style.overflow = ""; }, 220);
-}
-
-function saveProfile() {
-  const name = editNameEl?.value.trim();
-  const email = editEmailEl?.value.trim();
-  const bio = editBioEl?.value.trim();
-
-  if (!name || !email) {
-    if (modalMsg) { modalMsg.className = "msg error"; modalMsg.textContent = "Name and email are required."; }
-    return;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    if (modalMsg) { modalMsg.className = "msg error"; modalMsg.textContent = "Please enter a valid email address."; }
-    return;
-  }
-
-  USER.name = name;
-  USER.email = email;
-  USER.bio = bio ?? USER.bio;
-
-  renderHero();
-  if (modalMsg) { modalMsg.className = "msg success"; modalMsg.textContent = "Profile updated successfully!"; }
-  setTimeout(closeModal, 900);
-}
-
-function initModal() {
-  editBtn?.addEventListener("click", openModal);
-  modalClose?.addEventListener("click", closeModal);
-  modalCancel?.addEventListener("click", closeModal);
-  modalSave?.addEventListener("click", saveProfile);
-  modalBackdrop?.addEventListener("click", e => { if (e.target === modalBackdrop) closeModal(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && !modalBackdrop?.hidden) closeModal(); });
-}
 
 // ── LOGOUT ────────────────────────────────────────────────────
 function initLogout() {
-  logoutBtn?.addEventListener("click", e => {
+  logoutBtn?.addEventListener("click", async e => {
     e.preventDefault();
-    window.location.href = "index.html";
+    try {
+      await signOut(auth);
+      window.location.href = "index.html";
+    } catch (err) { console.error(err); }
   });
 }
+
+// ── AUTH LISTENER ──────────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+
+        USER.name = user.displayName || data.name || USER.name;
+        USER.email = user.email || data.email || USER.email;
+
+        FAVORITES = data.favorites || [];
+        WATCH_LATER = data.watchLater || [];
+        QUIZ_RESULTS = data.quizResults || [];
+      }
+      
+      renderHero();
+      renderFavorites();
+      renderWatchLater();
+      renderQuizResults();
+    } catch (e) { console.error(e); }
+  }
+});
 
 // ── BOOT ──────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
@@ -274,6 +272,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFavorites();
   renderWatchLater();
   renderQuizResults();
-  initModal();
   initLogout();
 });

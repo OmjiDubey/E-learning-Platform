@@ -1,0 +1,122 @@
+[
+  {
+    "id": "q1",
+    "question": "Which HTML element is used to specify a footer for a document or section?",
+    "hint": "Think about the literal name of the bottom part of a page.",
+    "options": [
+      { "id": "a", "title": "<bottom>", "desc": "Not a valid HTML5 element." },
+      { "id": "b", "title": "<footer>", "desc": "Defines a footer for a document or section." },
+      { "id": "c", "title": "<section>", "desc": "Defines a section in a document." },
+      { "id": "d", "title": "<div>", "desc": "A generic container." }
+    ],
+    "correct": "b"
+  },
+  {
+    "id": "q2",
+    "question": "In CSS, what is the correct syntax to make all <p> elements bold?",
+    "hint": "You need to change the font weight property.",
+    "options": [
+      { "id": "a", "title": "p {font-weight: bold;}", "desc": "Uses the font-weight property." },
+      { "id": "b", "title": "<p style=\"text-size:bold;\">", "desc": "Not a valid CSS property." },
+      { "id": "c", "title": "p {text-weight: bold;}", "desc": "text-weight does not exist." },
+      { "id": "d", "title": "p {font-style: bold;}", "desc": "font-style is used for italics." }
+    ],
+    "correct": "a"
+  },
+  {
+    "id": "q3",
+    "question": "Which of the following is correct about JavaScript variables?",
+    "hint": "Consider modern ES6 standards vs older ones.",
+    "options": [
+      { "id": "a", "title": "Variables declared with 'var' are block-scoped.", "desc": "var is function-scoped." },
+      { "id": "b", "title": "Variables declared with 'let' can be re-declared in the same scope.", "desc": "let prevents re-declaration." },
+      { "id": "c", "title": "Variables declared with 'const' cannot be reassigned.", "desc": "const binds a value permanently." },
+      { "id": "d", "title": "There are no differences between 'let' and 'var'.", "desc": "They have different scoping rules." }
+    ],
+    "correct": "c"
+  },
+  {
+    "id": "q4",
+    "question": "What does CSS stand for?",
+    "hint": "It describes how HTML elements are to be displayed.",
+    "options": [
+      { "id": "a", "title": "Creative Style Sheets", "desc": "Incorrect." },
+      { "id": "b", "title": "Computer Style Sheets", "desc": "Incorrect." },
+      { "id": "c", "title": "Cascading Style Sheets", "desc": "The correct acronym." },
+      { "id": "d", "title": "Colorful Style Sheets", "desc": "Incorrect." }
+    ],
+    "correct": "c"
+  },
+  {
+    "id": "q5",
+    "question": "Which HTTP status code signifies a 'Not Found' error?",
+    "hint": "It is one of the most common errors seen on the web.",
+    "options": [
+      { "id": "a", "title": "200", "desc": "Means OK." },
+      { "id": "b", "title": "404", "desc": "Means the server can't find the requested resource." },
+      { "id": "c", "title": "500", "desc": "Means Internal Server Error." },
+      { "id": "d", "title": "301", "desc": "Means Moved Permanently." }
+    ],
+    "correct": "b"
+  },
+  {
+    "id": "q6",
+    "question": "How do you create a function in JavaScript?",
+    "hint": "Look for the syntax that defines a named block of code.",
+    "options": [
+      { "id": "a", "title": "function:myFunction()", "desc": "Incorrect syntax." },
+      { "id": "b", "title": "function myFunction()", "desc": "The standard function declaration." },
+      { "id": "c", "title": "create myFunction()", "desc": "Not valid JS." },
+      { "id": "d", "title": "def myFunction()", "desc": "Used in Python, not JS." }
+    ],
+    "correct": "b"
+  },
+  {
+    "id": "q7",
+    "question": "Which HTML attribute specifies an alternate text for an image, if the image cannot be displayed?",
+    "hint": "This attribute is crucial for accessibility.",
+    "options": [
+      { "id": "a", "title": "alt", "desc": "Provides alternative text." },
+      { "id": "b", "title": "title", "desc": "Provides a tooltip." },
+      { "id": "c", "title": "src", "desc": "Specifies the image source." },
+      { "id": "d", "title": "longdesc", "desc": "Used for long descriptions." }
+    ],
+    "correct": "a"
+  },
+  {
+    "id": "q8",
+    "question": "What is the default display property value of a <div> element?",
+    "hint": "A div takes up the full width available.",
+    "options": [
+      { "id": "a", "title": "inline", "desc": "Does not force a line break." },
+      { "id": "b", "title": "block", "desc": "Starts on a new line and takes full width." },
+      { "id": "c", "title": "inline-block", "desc": "Behaves like inline but can have dimensions." },
+      { "id": "d", "title": "flex", "desc": "Must be set explicitly." }
+    ],
+    "correct": "b"
+  },
+  {
+    "id": "q9",
+    "question": "Which method is used to parse a JSON string into a JavaScript object?",
+    "hint": "You want to convert a string to an object.",
+    "options": [
+      { "id": "a", "title": "JSON.stringify()", "desc": "Converts object to string." },
+      { "id": "b", "title": "JSON.parse()", "desc": "Converts string to object." },
+      { "id": "c", "title": "JSON.toObject()", "desc": "Not a valid method." },
+      { "id": "d", "title": "JSON.read()", "desc": "Not a valid method." }
+    ],
+    "correct": "b"
+  },
+  {
+    "id": "q10",
+    "question": "What is the correct HTML element for inserting a line break?",
+    "hint": "It is an empty element, meaning it has no closing tag.",
+    "options": [
+      { "id": "a", "title": "<br>", "desc": "Produces a line break in text." },
+      { "id": "b", "title": "<break>", "desc": "Not a valid tag." },
+      { "id": "c", "title": "<lb>", "desc": "Not a valid tag." },
+      { "id": "d", "title": "<hr>", "desc": "Produces a horizontal line." }
+    ],
+    "correct": "a"
+  }
+]

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz — Advanced Architecture</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="dashboard.html" class="navbar-brand">
+      <span class="brand-name">Scholarly</span>
+    </a>
+    <div style="display:flex; gap:24px; align-items:center;">
+      <a href="dashboard.html" style="font-weight:500; font-size:0.9rem; color:var(--text);">Dashboard</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="#" class="btn-ghost" id="logout-btn">Logout</a>
+      <a href="profile.html" class="btn-ghost" style="border:none; padding:4px 8px; gap:8px;">
+        <span style="color:var(--primary); font-weight:500;">My Profile</span>
+        <div class="avatar" id="nav-avatar" style="width:32px; height:32px; font-size:0.85rem;"></div>
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper quiz-wrapper">
+    <header class="quiz-header">
+      <div class="quiz-header-info">
+        <div class="quiz-meta">
+          <span class="badge badge-orange">ARCHITECTURE 301</span>
+          <span class="quiz-time">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            15 Mins
+          </span>
+        </div>
+        <h1 class="quiz-title">Quiz — Advanced Architecture</h1>
+        <p class="quiz-desc">Test your understanding of modern structural load distribution and sustainable material
+          choices in high-rise constructions.</p>
+      </div>
+      <!-- Removed progress tracker as requested -->
+    </header>
+
+    <div class="card quiz-question-card" id="quiz-container">
+      <div class="quiz-card-body" id="question-body">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="quiz-card-footer" style="justify-content: flex-end;">
+        <button class="btn-primary" id="btn-next">Next Question</button>
+      </div>
+    </div>
+
+    <div class="card quiz-question-card" id="quiz-result" style="display: none; text-align: center; padding: 48px;">
+      <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 16px;">Quiz Completed!</h2>
+      <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 24px;">You have successfully completed
+        the Frontend Architecture quiz.</p>
+      <div style="font-size: 3rem; font-weight: 700; color: #16a34a; margin-bottom: 32px;" id="final-score">100%</div>
+      <button class="btn-primary" onclick="window.location.href='profile.html'">View My Profile</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/quiz.js"></script>
+</body>
+
+</html>

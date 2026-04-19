@@ -12,10 +12,7 @@
     <a href="dashboard.html" class="navbar-brand">
       <span class="brand-name">Scholarly</span>
     </a>
-    <div style="display:flex; gap:24px; align-items:center;">
-        <a href="dashboard.html" style="font-weight:500; font-size:0.9rem; color:var(--text);">Dashboard</a>
-        <a href="#" style="color:var(--primary); font-weight:600; font-size:0.9rem; border-bottom:2px solid var(--primary); padding-bottom:2px;">Courses</a>
-    </div>
+
     <div class="navbar-actions">
       <a href="#" class="btn-ghost" id="logout-btn">Logout</a>
       <a href="profile.html" class="btn-ghost" style="border:none; padding:4px 8px; gap:8px;">
@@ -32,9 +29,9 @@
     </div>
 
     <!-- Active Courses Section -->
-    <div style="margin-bottom: 48px;">
+    <div id="active-courses-section" style="margin-bottom: 48px; display: none;">
       <h2 class="section-heading">Active Courses</h2>
-      <div class="grid-courses" id="active-courses-container" style="grid-template-columns: repeat(2, 1fr);">
+      <div class="grid-courses" id="active-courses-container" style="grid-template-columns: repeat(3, 1fr);">
         <!-- Active courses injected by JS -->
       </div>
     </div>
